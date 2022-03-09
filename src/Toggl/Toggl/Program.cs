@@ -28,60 +28,20 @@ public class Program
         var cancellationTokenSource = new CancellationTokenSource();
         var cancellationToken = cancellationTokenSource.Token;
 
-
-        var json = await GetJsonFromApi(apiToken, httpClient, cancellationToken);
+        //var json = await GetJsonFromApi(apiToken, httpClient, cancellationToken);
+        var json = GetJsonFromFile();
 
         var timeEntriesDataSource = JsonSerializer.Deserialize<List<TimeentryDto>>(json);
 
         var timeEntries = timeEntriesDataSource?.Select(t => mapper.Map<Timeentry>(t)) ?? new List<Timeentry>();
 
-        var x = timeEntries.ToList()
+        var roundedTimeentriesResult = timeEntries.ToList()
             .Group()
             .Round();
 
-        var durationPerDayRounded = new Dictionary<DateTime, long>();
-        var durationPerDayOriginal = new Dictionary<DateTime, long>();
-
-        foreach (var roundedTimeentry in x.RoundedTimeentries)
+        foreach (var roundedTimeentry in roundedTimeentriesResult.RoundedTimeentries.OrderBy(r => r.Date).ThenBy(r => r.Description))
         {
-            var roundedDuration = roundedTimeentry.Duration;
-
-            if (durationPerDayRounded.ContainsKey(roundedTimeentry.Date))
-            {
-                durationPerDayRounded[roundedTimeentry.Date] += roundedDuration;
-            }
-            else
-            {
-                durationPerDayRounded.Add(roundedTimeentry.Date, roundedDuration);
-            }
-
-            System.Console.WriteLine($"Rounded duration: {roundedDuration}");
-            foreach (var originalTimeentry in roundedTimeentry.OriginalTimeentries)
-            {
-                System.Console.WriteLine($" > {originalTimeentry.Duration}");
-                if (durationPerDayOriginal.ContainsKey(originalTimeentry.Start.Date))
-                {
-                    durationPerDayOriginal[originalTimeentry.Start.Date] += originalTimeentry.Duration;
-                }
-                else
-                {
-                    durationPerDayOriginal.Add(originalTimeentry.Start.Date, originalTimeentry.Duration);
-                }
-            }
-
-            var sumOfOriginalDuration = roundedTimeentry.OriginalTimeentries.Sum(s => s.Duration);
-            var diff = roundedDuration - sumOfOriginalDuration;
-
-            System.Console.WriteLine($"Sum of original duration: {sumOfOriginalDuration}");
-            System.Console.WriteLine($"Diff: {diff}");
-            System.Console.WriteLine();
-        }
-
-        foreach (var (key, value) in durationPerDayRounded.OrderBy(s => s.Key))
-        {
-            var original = durationPerDayOriginal[key];
-            var diff = value - original;
-            System.Console.WriteLine($"Rounded {value} : {original} Original => Diff: {diff} ({diff / 60}) [{key:dd.MM.yyyy}]");
+            System.Console.WriteLine($"{roundedTimeentry.Date:D} - {TimeSpan.FromSeconds(roundedTimeentry.Duration)} - {roundedTimeentry.Description}");
         }
     }
 
@@ -94,9 +54,10 @@ public class Program
         requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", passwordBase64);
 
         var response = await httpClient.SendAsync(requestMessage, cancellationToken);
-        var json = await response.Content.ReadAsStringAsync(cancellationToken);
-        return json;
+        return await response.Content.ReadAsStringAsync(cancellationToken);
     }
+
+    private static string GetJsonFromFile() => File.ReadAllText("testcase1.json");
 
     private static ServiceProvider CreateServices(string url)
     {
