@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toggl.Console", "Toggl\Togg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libraries.Toggl", "Libraries.Toggl\Libraries.Toggl.csproj", "{A88FC48B-4766-4BF4-8582-83585F319971}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "Domain.Tests\Domain.Tests.csproj", "{E69A6980-9A6D-4AA7-9737-E6634A5D9738}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Tests", "Domain.Tests\Domain.Tests.csproj", "{E69A6980-9A6D-4AA7-9737-E6634A5D9738}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{94A8FCEC-E125-4EFD-AEDD-4A93135CFF23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{94A8FCEC-E125-4EFD-AEDD-4A93135CFF23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libraries.Toggl.Tests", "Libraries.Toggl.Tests\Libraries.Toggl.Tests.csproj", "{EE6115E5-FED4-41E0-9960-FCA4F1DA0E64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{94A8FCEC-E125-4EFD-AEDD-4A93135CFF23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94A8FCEC-E125-4EFD-AEDD-4A93135CFF23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94A8FCEC-E125-4EFD-AEDD-4A93135CFF23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE6115E5-FED4-41E0-9960-FCA4F1DA0E64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE6115E5-FED4-41E0-9960-FCA4F1DA0E64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE6115E5-FED4-41E0-9960-FCA4F1DA0E64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE6115E5-FED4-41E0-9960-FCA4F1DA0E64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

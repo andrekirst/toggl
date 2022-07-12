@@ -76,8 +76,7 @@ public static class RoundTimeentries
     private static RoundedTimeentry? GetMaxItemByRoundUpDifference(RoundedTimeentriesResult result) =>
         result.RoundedTimeentries
             .Where(r => r.RoundUpDifference != null)
-            .OrderByDescending(r => r.RoundUpDifference)
-            .FirstOrDefault();
+            .MaxBy(r => r.RoundUpDifference);
 }
 
 public class RoundedTimeentriesResult
@@ -117,6 +116,8 @@ public class RoundedTimeentriesResult
 
         return s;
     }
+
+    public IEnumerable<long> DistinctProjectIds => RoundedTimeentries.Select(s => s.ProjectId).Distinct();
 }
 
 public class RoundTimeentriesOptions
